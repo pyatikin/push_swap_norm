@@ -12,7 +12,7 @@ int	get_place(t_stack st, int value)
 	return (i);
 }
 
-void	find_your_place(t_stack *a, t_stack *b)
+void	find_your_place(t_stack *a, t_stack *b)//!!!!!!!!!!!!!!!!!!!
 {
 	Node	*tmp;
 	Node	*a2;
@@ -26,12 +26,15 @@ void	find_your_place(t_stack *a, t_stack *b)
 		tmp->b_place = i;
 		a2 = a->head;
 		j = 0;
-		while (a2->value < tmp->value)
+		while (!(a2->value - tmp->value < 0 || a2->next->value - tmp->value > 0) && a2->next != NULL)
 		{
 			a2 = a2->next;
 			j++;
 		}
-		tmp->a_place = j;
+		if(a2->next == NULL)
+			tmp->a_place = 0;
+		else
+			tmp->a_place = j;
 		i++;
 		tmp = tmp->next;
 	}
@@ -67,7 +70,7 @@ void sorting(t_stack *a, t_stack *b, int min_price)
 				i = 0;
 				while(i < (a->size - b_tmp->a_place - b->size - b_tmp->b_place))
 				{
-					ft_reverce_rotate(a, "rra\n\0");
+					ft_reverce_rotate(a, "rra\n");
 					i++;
 				}
 			} 
@@ -82,7 +85,7 @@ void sorting(t_stack *a, t_stack *b, int min_price)
 				i = 0;
 				while(i < ( b->size - b_tmp->b_place - a->size - b_tmp->a_place))
 				{
-					ft_reverce_rotate(b, "rrb\n\0");
+					ft_reverce_rotate(b, "rrb\n");
 					i++;
 				}
 			}
@@ -100,7 +103,7 @@ void sorting(t_stack *a, t_stack *b, int min_price)
 				i = 0;
 				while(i < b_tmp->a_place - b_tmp->b_place)
 				{
-					ft_rotate(a, "ra\n\0");
+					ft_rotate(a, "ra\n");
 					i++;
 				}
 			}
@@ -114,7 +117,7 @@ void sorting(t_stack *a, t_stack *b, int min_price)
 				i = 0;
 				while(i < b_tmp->b_place - b_tmp->a_place)
 				{
-					ft_rotate(b, "rb\n\0");
+					ft_rotate(b, "rb\n");
 					i++;
 				}
 			}
@@ -123,12 +126,12 @@ void sorting(t_stack *a, t_stack *b, int min_price)
 		{
 			i = 0;
 			while(i < a->size - b_tmp->a_place){
-				ft_reverce_rotate(a, "rra\n\0");
+				ft_reverce_rotate(a, "rra\n");
 				i++;
 			}
 			i = 0;
 			while(i < b_tmp->b_place){
-				ft_rotate(b, "rb\n\0");
+				ft_rotate(b, "rb\n");
 				i++;
 			}
 		}
@@ -136,16 +139,16 @@ void sorting(t_stack *a, t_stack *b, int min_price)
 		{
 			i = 0;
 			while(i < b->size - b_tmp->b_place){
-				ft_reverce_rotate(b, "rrb\b");
+				ft_reverce_rotate(b, "rrb");
 				i++;
 			}
 			i = 0;
 			while(i < b_tmp->a_place){
-				ft_rotate(a, "ra\n\0");
+				ft_rotate(a, "ra\n");
 				i++;
 			}
 		}
-		ft_push(b, a, "pa\n\0");
+		ft_push(b, a, "pa\n");
 }
 
 int	evaluation(t_stack *a, t_stack *b) //!!!!!!!!!!!!
@@ -192,11 +195,11 @@ void	triple_sort(t_stack *st)
 	second = st->head->next->value;
 	third = st->head->next->next->value;
 	if (first < second && first < third && second > third)
-		ft_swap(st, "sa\n\0");
+		ft_swap(st, "sa\n");
 	else if (first > second && first < third && second < third)
-		ft_swap(st, "sa\n\0");
+		ft_swap(st, "sa\n");
 	else if (first > second && first > third && second > third)
-		ft_swap(st, "sa\n\0");
+		ft_swap(st, "sa\n");
 }
 
 void	parse_stack(t_stack *a, t_stack *b)
@@ -236,12 +239,12 @@ void	parse_stack(t_stack *a, t_stack *b)
 		if (tmp->value == max || tmp->value == min || tmp->value == mid)
 		{
 			tmp = tmp->next;
-			ft_rotate(a, "ra\n\0");
+			ft_rotate(a, "ra\n");
 		}
 		else
 		{
 			tmp = tmp->next;
-			ft_push(a, b, "pb\n\0");
+			ft_push(a, b, "pb\n");
 		}
 	}
 }

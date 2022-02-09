@@ -32,8 +32,8 @@ void	ft_rotate(t_stack *st, char *s) // first->last
 }
 void ft_rr(t_stack *a, t_stack *b)
 {
-	ft_rotate(a, "\0");
-	ft_rotate(b, "rr1\n\0");
+	ft_rotate(a, "");
+	ft_rotate(b, "rr1\n");
 }
 
 void	ft_reverce_rotate(t_stack *st, char *s) // last->first
@@ -54,8 +54,8 @@ void	ft_reverce_rotate(t_stack *st, char *s) // last->first
 }
 void ft_rrr(t_stack *a, t_stack *b)
 {
-	ft_reverce_rotate(a, "\0");
-	ft_reverce_rotate(b, "rrr2\n\0");
+	ft_reverce_rotate(a, "");
+	ft_reverce_rotate(b, "rrr2\n");
 }
 void	ft_push(t_stack *from, t_stack *to, char *s) //pb a->b
 {
