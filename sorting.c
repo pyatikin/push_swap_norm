@@ -37,13 +37,124 @@ void	find_your_place(t_stack *a, t_stack *b)
 	}
 }
 
-void	evaluation(t_stack *a, t_stack *b) //!!!!!!!!!!!!
+Node *find_min_price(t_stack *b, int min_price)
+{
+	Node *tmp;
+
+	tmp = b->head;
+	while (tmp->price != min_price)
+		tmp = tmp->next;
+	return (tmp);
+}
+
+void sorting(t_stack *a, t_stack *b, int min_price)
+{
+	Node *a_tmp;
+	Node *b_tmp;
+	int	i;
+
+	a_tmp = a->head;
+	b_tmp = find_min_price(b, min_price);
+	if (b_tmp->a_place > (a->size / 2) && b_tmp->b_place > (b->size / 2))
+		{
+			if (a->size - b_tmp->a_place > b->size - b_tmp->b_place){
+				i = 0;
+				while(i < b->size - b_tmp->b_place)
+				{
+					ft_rrr(a,b);
+					i++;
+				}
+				i = 0;
+				while(i < (a->size - b_tmp->a_place - b->size - b_tmp->b_place))
+				{
+					ft_reverce_rotate(a, "rra\n\0");
+					i++;
+				}
+			} 
+			else
+			{
+				i = 0;
+				while(a->size - b_tmp->a_place)
+				{
+					ft_rrr(a,b);
+					i++;
+				}
+				i = 0;
+				while(i < ( b->size - b_tmp->b_place - a->size - b_tmp->a_place))
+				{
+					ft_reverce_rotate(b, "rrb\n\0");
+					i++;
+				}
+			}
+			
+		}
+		else if (b_tmp->a_place <= (a->size / 2) && b_tmp->b_place <= (b->size / 2))
+		{
+			if (b_tmp->a_place > b_tmp->b_place)
+			{
+				i=0;
+				while(i < b_tmp->b_place){
+					ft_rr(a,b);
+					i++;
+				}
+				i = 0;
+				while(i < b_tmp->a_place - b_tmp->b_place)
+				{
+					ft_rotate(a, "ra\n\0");
+					i++;
+				}
+			}
+			else
+			{
+				i=0;
+				while(i < b_tmp->a_place){
+					ft_rr(a,b);
+					i++;
+				}
+				i = 0;
+				while(i < b_tmp->b_place - b_tmp->a_place)
+				{
+					ft_rotate(b, "rb\n\0");
+					i++;
+				}
+			}
+		}
+		else if (b_tmp->a_place > (a->size / 2) && b_tmp->b_place <= (b->size / 2))
+		{
+			i = 0;
+			while(i < a->size - b_tmp->a_place){
+				ft_reverce_rotate(a, "rra\n\0");
+				i++;
+			}
+			i = 0;
+			while(i < b_tmp->b_place){
+				ft_rotate(b, "rb\n\0");
+				i++;
+			}
+		}
+		else if (b_tmp->a_place <= (a->size / 2) && b_tmp->b_place > (b->size / 2))
+		{
+			i = 0;
+			while(i < b->size - b_tmp->b_place){
+				ft_reverce_rotate(b, "rrb\b");
+				i++;
+			}
+			i = 0;
+			while(i < b_tmp->a_place){
+				ft_rotate(a, "ra\n\0");
+				i++;
+			}
+		}
+		ft_push(b, a, "pa\n\0");
+}
+
+int	evaluation(t_stack *a, t_stack *b) //!!!!!!!!!!!!
 {
 	int		min_price;
 	Node	*tmp;
 
 	tmp = b->head;
-	min_price = 0;
+	min_price = MAX_INT;
 	while (tmp != NULL)
 	{
 		if (tmp->a_place > (a->size / 2) && tmp->b_place > (b->size / 2))
@@ -64,8 +175,11 @@ void	evaluation(t_stack *a, t_stack *b) //!!!!!!!!!!!!
 			tmp->price = tmp->b_place + a->size - tmp->a_place;
 		else if (tmp->a_place <= (a->size / 2) && tmp->b_place > (b->size / 2))
 			tmp->price = tmp->a_place + b->size - tmp->b_place;
+		if(tmp->price < min_price)
+			min_price = tmp->price;
 		tmp = tmp->next;
 	}
+	return (min_price);
 }
 
 void	triple_sort(t_stack *st)
@@ -78,11 +192,11 @@ void	triple_sort(t_stack *st)
 	second = st->head->next->value;
 	third = st->head->next->next->value;
 	if (first < second && first < third && second > third)
-		ft_swap(st, "sa");
+		ft_swap(st, "sa\n\0");
 	else if (first > second && first < third && second < third)
-		ft_swap(st, "sa");
+		ft_swap(st, "sa\n\0");
 	else if (first > second && first > third && second > third)
-		ft_swap(st, "sa");
+		ft_swap(st, "sa\n\0");
 }
 
 void	parse_stack(t_stack *a, t_stack *b)
@@ -122,12 +236,12 @@ void	parse_stack(t_stack *a, t_stack *b)
 		if (tmp->value == max || tmp->value == min || tmp->value == mid)
 		{
 			tmp = tmp->next;
-			ft_rotate(a, "ra");
+			ft_rotate(a, "ra\n\0");
 		}
 		else
 		{
 			tmp = tmp->next;
-			ft_push(a, b, "pb");
+			ft_push(a, b, "pb\n\0");
 		}
 	}
 }

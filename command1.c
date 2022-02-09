@@ -2,16 +2,19 @@
 
 void	ft_swap(t_stack *st, char *s)
 {
+	
 	Node	*tmp;
 
 	tmp = st->head->next;
-	tmp->prev = NULL;
 	st->head->next = tmp->next;
+	tmp->next->prev = st->head;
 	tmp->next = st->head;
 	st->head->prev = tmp;
+	tmp->prev = NULL;
+	
 	st->head = tmp;
 	write(1, s, ft_strlen(s));
-	write(1, "\n", 1);
+	
 }
 
 void	ft_rotate(t_stack *st, char *s) // first->last
@@ -26,34 +29,51 @@ void	ft_rotate(t_stack *st, char *s) // first->last
 	st->tail->next = tmp;
 	st->tail = tmp;
 	write(1, s, ft_strlen(s));
-	write(1, "\n", 1);
+}
+void ft_rr(t_stack *a, t_stack *b)
+{
+	ft_rotate(a, "\0");
+	ft_rotate(b, "rr1\n\0");
 }
 
 void	ft_reverce_rotate(t_stack *st, char *s) // last->first
 {
 	Node	*tmp;
 
+	
 	tmp = st->tail;
-	st->tail->prev->next = NULL;
+	
 	st->tail = st->tail->prev;
+	st->tail->next = NULL;
+	
 	st->head->prev = tmp;
 	tmp->prev = NULL;
 	tmp->next = st->head;
 	st->head = tmp;
 	write(1, s, ft_strlen(s));
-	write(1, "\n", 1);
 }
-
+void ft_rrr(t_stack *a, t_stack *b)
+{
+	ft_reverce_rotate(a, "\0");
+	ft_reverce_rotate(b, "rrr2\n\0");
+}
 void	ft_push(t_stack *from, t_stack *to, char *s) //pb a->b
 {
-	Node	*tmp;
+	int	tmp;
 
-	tmp = from->head;
-	from->head->next->prev = NULL;
-	from->head = from->head->next;
-	tmp->next = NULL;
-	pushFront(to, tmp->value);
-	from->size--;
+	//printf("1= %d, 2 =%d\n", from->head->value, from->head->next->value);
+	//if(from->head->next == NULL){
+	//	tmp = from->head->value;
+	//	from->head = NULL;
+	//}
+	//else
+	//{
+	//	tmp = from->head->value;
+	//	from->head->next->prev = NULL;
+	//	from->head = from->head->next;
+	//}
+	tmp = popFront(from);
+	pushFront(to, tmp);
+	//from->size--;
 	write(1, s, ft_strlen(s));
-	write(1, "\n", 1);
 }

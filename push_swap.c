@@ -34,7 +34,7 @@ t_stack	*translate(int argc, char **argv)
 			pushBack(a, 0);
 		else if(ft_atoi(argv[i]) == 0)
 		{
-			printf("WRONG NUM\n");
+			printf("WRONG NUM\n\0");
 			exit(4);
 		}
 		else
@@ -56,7 +56,7 @@ void	duplicates(t_stack *st)
 		{
 			if(getNvalue(st, i) == getNvalue(st, j))
 			{
-				printf("DUPLICATES\n");
+				printf("DUPLICATES\n\0");
 				exit(2);
 			}
 			j++;
@@ -69,6 +69,7 @@ int	main(int argc, char**argv)
 {
 	t_stack	*st;
 	t_stack	*b;
+	int min_price;
 
     if(argc <= 2)
         return (0);
@@ -76,7 +77,7 @@ int	main(int argc, char**argv)
     {
         if(parse_argv(argc, argv))
 		{
-			printf("NOT NUM\n");
+			printf("NOT NUM\n\0");
 			exit (1);
 		}
 		st = translate(argc, argv);
@@ -85,18 +86,22 @@ int	main(int argc, char**argv)
 		b = createt_stack();
 		parse_stack(st, b);
 		triple_sort(st);
-		find_your_place(st, b);
-		evaluation(st, b);
-		printf("a\n");
-		printt_stack(st);
-		printf("b\n");
-		printt_stack(b);
-		Node *tmp = b->head;
-		while(tmp != NULL)
-		{
-			printf("value = %d | place b = %d | place a = %d | price = %d\n", tmp->value, tmp->b_place, tmp->a_place, tmp->price);
-			tmp = tmp->next;
+		while(b->size > 0){
+			find_your_place(st, b);
+			min_price = evaluation(st, b);
+			sorting(st,b, min_price);
 		}
-		printf("%d", (int)(0.9));
+		printf("a\n\0");
+			printt_stack(st);
+			printf("b\n\0");
+			printt_stack(b);
+			Node *tmp = b->head;
+			while(tmp != NULL)
+			{
+				printf("value = %d | place b = %d | place a = %d | price = %d\n", tmp->value, tmp->b_place, tmp->a_place, tmp->price);
+				tmp = tmp->next;
+			}
+		
+		printf("SIZE = %ld", b->size);
     }
 }
