@@ -139,7 +139,7 @@ void sorting(t_stack *a, t_stack *b, int min_price)
 		{
 			i = 0;
 			while(i < b->size - b_tmp->b_place){
-				ft_reverce_rotate(b, "rrb");
+				ft_reverce_rotate(b, "rrb\n");
 				i++;
 			}
 			i = 0;
